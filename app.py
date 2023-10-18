@@ -7,15 +7,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 
-# Load the dataset and perform any necessary preprocessing
-# df = pd.read_csv('data.csv')
-# ...
+# Load the dataset
+data = pd.read_csv('in-vehicle-coupon-recommendation.csv')
 
-# Define the functions for each page
+# Defining the functions for each page
 def home():
    st.title('Home Page')
-   st.image('img1.jpeg', use_column_width=True)
-   # ...
+   #st.image('img1.jpeg', use_column_width=True)
+   st.write('Welcome to Streamlit app!')
+   st.write(data.head())
+   
+  
 
 def eda():
    st.title('EDA Page')
