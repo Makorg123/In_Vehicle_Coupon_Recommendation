@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
 from PIL import Image
 import altair as alt
 import seaborn as sns
@@ -215,8 +216,92 @@ def eda():
 
 # -------------------------------------------------------------------------------------------------------------- #
 def prediction():
-    st.title('Prediction Page')
-    # Add your prediction content here
+   st.subheader('Prediction Page')
+
+   col1,col2,col3,col4,col5,col6 = st.columns(6)
+   with col1:
+     destination = st.selectbox('Destination',('No Urgent Place','Home','Work'))
+
+     passanger = st.selectbox('Passanger',('Alone','Friend(s)','Partner','Kid(s)'))
+
+     weather = st.selectbox('Weather',('Sunny','Snowy','Rainy'))
+
+     temperature = st.selectbox('Temperature',('80','55','30'))
+
+   with col2:
+     time = st.selectbox('Time',('2PM','10AM','6PM','7AM','10PM'))
+
+     coupon = st.selectbox('Coupon',('Restaurant(<20)','Coffee House','Carry out & Take away','Bar','Restaurant(20-50)'))
+
+     expiration = st.selectbox('Expiration',('1d','2h'))
+
+     gender = st.selectbox('Gender',('Male','Female'))
+    
+   with col3:
+      age = st.selectbox('Age',('21','46','26','31','41','50plus','36','below21'))
+
+      maritalStatus = st.selectbox('Marital Status',('Unmarried partner','Single','Married partner','Divorced','Widowed'))
+
+      has_children = st.selectbox('Has Children',('1','0'))
+
+      education = st.selectbox('Education',('Some college - no degree','Bachelors degree','Associates degree','High School Graduate','Graduate degree (Masters or Doctorate)','Some High School'))
+
+   with col4:
+      occupation = st.selectbox('Occupation',('Unemployed','Architecture & Engineering',
+                                'Student','Education&Training&Library','Healthcare Support',
+                                'Sales & Related','Management','Arts Design Entertainment Sports & Media',
+                                'Computer & Mathematical','Life Physical Social Science',
+                                'Personal Care & Service','Community & Social Services',
+                                'Office & Administrative Support','Construction & Extraction','Legal',
+                                'Installation Maintenance & Repair','Business & Financial',
+                                'Food Preparation & Serving Related','Production Occupations',
+                                'Building & Grounds Cleaning & Maintenance','Transportation & Material Moving',
+                                'Protective Service','Healthcare Practitioners & Technical',
+                                'Farming Fishing & Forestry','Retired','Military'))
+  
+      income = st.selectbox('Income',('$25000 - $37499','$12500 - $24999','$37500 - $49999','$100000 or More','$50000 - $62499','Less than $12500','$87500 - $99999','$75000 - $87499','$62500 - $74999'))
+  
+      Bar = st.selectbox('Bar',('never','less1','1~3','gt8','4~8'))
+  
+      CoffeeHouse = st.selectbox('CoffeeHouse',('never','less1','4~8','1~3','gt8'))
+
+   with col5:
+      CarryAway = st.selectbox('CarryAway',('never','less1','1~3','4~8','gt8'))
+
+      RestaurantLessThan20 = st.selectbox('RestaurantLessThan20',('4~8','1~3','less1','never','gt8'))
+
+      Restaurant20To50 = st.selectbox('Restaurant20To50',('1~3','less1','never','4~8','gt8'))
+
+      toCoupon_GEQ15min = st.selectbox('toCoupon_GEQ15min',('1','0'))
+
+
+   with col6:
+      toCoupon_GEQ25min = st.selectbox('toCoupon_GEQ25min',('1','0'))
+
+      direction_same = st.selectbox('direction_same',('0','1'))
+
+      direction_opp = st.selectbox('direction_opp',('0','1'))
+   
+   if st.button('Predict'):
+    # load the model
+    import pickle
+    model = pickle.load(open('hgb.pkl','rb'))
+
+    # apply model to make prediction
+    prediction = model.predict([['destination', 'passanger', 'weather', 'temperature', 'time', 'coupon',
+       'expiration', 'gender', 'age', 'maritalStatus', 'has_children',
+       'education', 'occupation', 'income','Bar', 'CoffeeHouse',
+       'CarryAway', 'RestaurantLessThan20', 'Restaurant20To50','toCoupon_GEQ15min', 
+       'toCoupon_GEQ25min','direction_same', 'direction_opp']])
+
+    # display prediction
+    st.success(f'Your predicted coupon is {prediction}')
+    st.balloons()
+
+
+
+
+
 
 # -------------------------------------------------------------------------------------------------------------- # 
 
