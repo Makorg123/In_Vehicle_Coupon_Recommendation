@@ -366,7 +366,7 @@ def prediction():
    if st.button('Predict'):
     # load the model
     import pickle
-    model = pickle.load(open('vectorizer.pkl', 'rb'))
+    model = pickle.load(open('lr.pkl', 'rb'))
 
   # Get selected values from Streamlit input fields
     input_data = [
